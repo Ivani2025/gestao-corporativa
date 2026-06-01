@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestão Corporativa</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Fontes Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <!-- CSS do sistema -->
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     TOAST (notificações)
+     ═══════════════════════════════════════════════════ -->
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     MODAL ROOT (modais renderizados aqui)
+     ═══════════════════════════════════════════════════ -->
+<div id="modal-root"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     TELA DE LOGIN
+     ═══════════════════════════════════════════════════ -->
+<div id="scr-login" class="scr on" style="align-items:center;justify-content:center;padding:16px;background:#EAECEF;">
+  <div style="width:100%;max-width:440px;">
+
+    <!-- Logo -->
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="display:inline-flex;align-items:center;justify-content:center;background:#0a1f44;border-radius:14px;padding:14px;margin-bottom:14px;transition:transform .3s;width:68px;height:68px;overflow:hidden;" id="login-logo-icon" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        <span class="ms" style="color:#fff;font-size:34px;">shield_person</span>
+      </div>
+      <h1 style="font-size:22px;font-weight:700;color:#0a1f44;margin-bottom:4px;" id="login-sys-title">Gestão Corporativa</h1>
+      <p style="font-size:13px;color:#75777f;" id="login-sys-sub">Acesso restrito a colaboradores autorizados</p>
+    </div>
+
+    <!-- Card de login (physical card style) -->
+    <div class="physical-card" style="background:#fff;border-radius:24px;padding:32px 28px;border:1px solid rgba(197,198,207,.3);">
+      <div style="margin-bottom:18px;">
+        <label class="lbl">E-mail Institucional</label>
+        <div style="position:relative;">
+          <span class="ms" style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#75777f;font-size:18px;line-height:1;">mail</span>
+          <input class="inp" id="l-email" type="text" placeholder="E-mail ou usuário" style="padding-left:44px;"/>
+        </div>
+      </div>
+      <div style="margin-bottom:8px;">
+        <label class="lbl">Senha de Acesso</label>
+        <div style="position:relative;">
+          <span class="ms" style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#75777f;font-size:18px;line-height:1;">lock</span>
+          <input class="inp" id="l-pass" type="password" placeholder="••••••••" style="padding-left:44px;padding-right:44px;"/>
+          <button class="btn-w" onclick="tPass('l-pass',this)" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);">
+            <span class="ms" style="font-size:19px;">visibility</span>
+          </button>
+        </div>
+      </div>
+      <div style="text-align:right;margin-bottom:22px;">
+        <button class="btn-w" style="font-size:13px;color:#0a1f44;font-weight:600;" onclick="toast('Configure Firebase para redefinição de senha real.')">Esqueci minha senha</button>
+      </div>
+      <button class="btn btn-p" id="btn-login-main" style="width:100%;justify-content:center;padding:13px 22px;font-size:15px;" onclick="doLogin()">
+        Entrar na Plataforma <span class="ms">arrow_forward</span>
+      </button>
+      <div id="l-err" style="display:none;margin-top:12px;padding:10px 14px;background:#ffdad6;border-radius:8px;color:#93000a;font-size:13px;text-align:center;"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     TELA PRINCIPAL (APP)
+     ═══════════════════════════════════════════════════ -->
+<div id="scr-app" class="scr" style="flex-direction:row;">
+
+  <!-- ── SIDEBAR (desktop) ──────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <!-- Logo + User Card -->
+    <div style="padding:18px 14px 14px;border-bottom:1px solid #e4e2e5;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div id="sb-logo-wrap" style="background:#0a1f44;border-radius:10px;padding:9px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
+          <span class="ms sys-logo" style="color:#fff;font-size:20px;">shield_person</span>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div class="sys-nome" style="font-size:13px;font-weight:700;color:#0a1f44;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Gestão Corp.</div>
+          <div id="sb-empresa" style="font-size:11px;color:#75777f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Sistema de Equipes</div>
+        </div>
+      </div>
+      <!-- Mini user card -->
+      <div style="display:flex;align-items:center;gap:9px;padding:10px;background:#f5f3f7;border-radius:12px;">
+        <div class="av" id="sb-av" style="width:36px;height:36px;background:#d9e2ff;color:#0a1f44;font-size:13px;border:2px solid #0a1f44;"></div>
+        <div style="flex:1;min-width:0;">
+          <div id="sb-name" style="font-size:13px;font-weight:600;color:#1b1b1e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+          <div id="sb-badge" style="margin-top:2px;"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Navigation items -->
+    <nav id="sb-nav" style="padding:10px;flex:1;overflow-y:auto;"></nav>
+    <!-- Logout -->
+    <div style="padding:10px 14px;border-top:1px solid #e4e2e5;">
+      <button onclick="doLogout()" class="nav-i" style="width:100%;" onmouseover="this.style.background='#ffdad6';this.style.color='#ba1a1a'" onmouseout="this.style.background='transparent';this.style.color='#44464e'">
+        <span class="ms" style="font-size:19px;">logout</span> Sair do Sistema
+      </button>
+    </div>
+  </aside>
+
+  <!-- ── CONTEÚDO PRINCIPAL ─────────────────────────── -->
+  <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+
+    <!-- TOPBAR -->
+    <header style="background:#fff;border-bottom:1px solid #e4e2e5;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;">
+      <h2 id="page-title" style="font-size:18px;font-weight:700;color:#0a1f44;"></h2>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="btn-w" onclick="toast('Sem notificações novas')">
+          <span class="ms" style="font-size:22px;">notifications</span>
+        </button>
+        <div class="av" id="hd-av" onclick="nav('perfil')" style="width:36px;height:36px;background:#0a1f44;color:#fff;font-size:13px;cursor:pointer;border:2px solid #d9e2ff;"></div>
+      </div>
+    </header>
+
+    <!-- CONTEÚDO DA PÁGINA -->
+    <div id="page" style="flex:1;padding:24px;padding-bottom:90px;overflow-x:hidden;"></div>
+
+  </div>
+
+  <!-- ── BOTTOM NAV (mobile) ─────────────────────────── -->
+  <nav class="bnav" id="bnav" style="position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e4e2e5;display:flex;justify-content:space-around;padding:8px 0 14px;z-index:200;"></nav>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCRIPTS (ordem importa!)
+     ═══════════════════════════════════════════════════ -->
+<script src="js/config.js"></script>      <!-- 1. Configurações e tema padrão -->
+<script src="js/db.js"></script>          <!-- 2. Banco de dados -->
+<script src="js/utils.js"></script>       <!-- 3. Utilitários, cargos, toast, modal -->
+<script src="js/auth.js"></script>        <!-- 4. Autenticação -->
+<script src="js/nav.js"></script>         <!-- 5. Navegação e roteador -->
+<script src="js/components.js"></script>  <!-- 6. Componentes reutilizáveis -->
+<script src="js/pages.js"></script>       <!-- 7. Páginas -->
+<script src="js/modals.js"></script>      <!-- 8. Modais -->
+<script src="js/theme.js"></script>       <!-- 9. Painel de tema e cores -->
+
+<script>
+  // ── INICIALIZAÇÃO ──────────────────────────────────
+  document.addEventListener("DOMContentLoaded", async () => {
+    // Mostra loading no botão de login enquanto conecta Firebase
+    const btnLogin = document.getElementById("btn-login-main");
+    if (btnLogin) { btnLogin.disabled = true; btnLogin.textContent = "Conectando..."; }
+
+    await DB.init();   // Conecta Firebase e carrega dados
+
+    if (btnLogin) { btnLogin.disabled = false; btnLogin.innerHTML = "Entrar na Plataforma <span class=\"ms\">arrow_forward</span>"; }
+
+    applyTheme();
+
+    const t = DB.getTema();
+    const sb = document.getElementById("sb-empresa");
+    if (sb && t.nomeEmpresa) sb.textContent = t.nomeEmpresa;
+  });
+</script>
+
+</body>
+</html>
