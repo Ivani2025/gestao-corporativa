@@ -4,35 +4,35 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gestão Corporativa</title>
-
+ 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
+ 
   <!-- Fontes Google -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-
+ 
   <!-- CSS do sistema -->
-  <link rel="stylesheet" href="css/styles.css"/>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-
+ 
 <!-- ═══════════════════════════════════════════════════
      TOAST (notificações)
      ═══════════════════════════════════════════════════ -->
 <div id="toast"></div>
-
+ 
 <!-- ═══════════════════════════════════════════════════
      MODAL ROOT (modais renderizados aqui)
      ═══════════════════════════════════════════════════ -->
 <div id="modal-root"></div>
-
+ 
 <!-- ═══════════════════════════════════════════════════
      TELA DE LOGIN
      ═══════════════════════════════════════════════════ -->
 <div id="scr-login" class="scr on" style="align-items:center;justify-content:center;padding:16px;background:#EAECEF;">
   <div style="width:100%;max-width:440px;">
-
+ 
     <!-- Logo -->
     <div style="text-align:center;margin-bottom:28px;">
       <div style="display:inline-flex;align-items:center;justify-content:center;background:#0a1f44;border-radius:14px;padding:14px;margin-bottom:14px;transition:transform .3s;width:68px;height:68px;overflow:hidden;" id="login-logo-icon" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -41,7 +41,7 @@
       <h1 style="font-size:22px;font-weight:700;color:#0a1f44;margin-bottom:4px;" id="login-sys-title">Gestão Corporativa</h1>
       <p style="font-size:13px;color:#75777f;" id="login-sys-sub">Acesso restrito a colaboradores autorizados</p>
     </div>
-
+ 
     <!-- Card de login (physical card style) -->
     <div class="physical-card" style="background:#fff;border-radius:24px;padding:32px 28px;border:1px solid rgba(197,198,207,.3);">
       <div style="margin-bottom:18px;">
@@ -69,15 +69,15 @@
       </button>
       <div id="l-err" style="display:none;margin-top:12px;padding:10px 14px;background:#ffdad6;border-radius:8px;color:#93000a;font-size:13px;text-align:center;"></div>
     </div>
-
+ 
   </div>
 </div>
-
+ 
 <!-- ═══════════════════════════════════════════════════
      TELA PRINCIPAL (APP)
      ═══════════════════════════════════════════════════ -->
 <div id="scr-app" class="scr" style="flex-direction:row;">
-
+ 
   <!-- ── SIDEBAR (desktop) ──────────────────────────── -->
   <aside class="sidebar" id="sidebar">
     <!-- Logo + User Card -->
@@ -109,10 +109,10 @@
       </button>
     </div>
   </aside>
-
+ 
   <!-- ── CONTEÚDO PRINCIPAL ─────────────────────────── -->
   <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
-
+ 
     <!-- TOPBAR -->
     <header style="background:#fff;border-bottom:1px solid #e4e2e5;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;">
       <h2 id="page-title" style="font-size:18px;font-weight:700;color:#0a1f44;"></h2>
@@ -123,48 +123,49 @@
         <div class="av" id="hd-av" onclick="nav('perfil')" style="width:36px;height:36px;background:#0a1f44;color:#fff;font-size:13px;cursor:pointer;border:2px solid #d9e2ff;"></div>
       </div>
     </header>
-
+ 
     <!-- CONTEÚDO DA PÁGINA -->
     <div id="page" style="flex:1;padding:24px;padding-bottom:90px;overflow-x:hidden;"></div>
-
+ 
   </div>
-
+ 
   <!-- ── BOTTOM NAV (mobile) ─────────────────────────── -->
   <nav class="bnav" id="bnav" style="position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e4e2e5;display:flex;justify-content:space-around;padding:8px 0 14px;z-index:200;"></nav>
-
+ 
 </div>
-
+ 
 <!-- ═══════════════════════════════════════════════════
      SCRIPTS (ordem importa!)
      ═══════════════════════════════════════════════════ -->
-<script src="js/config.js"></script>      <!-- 1. Configurações e tema padrão -->
-<script src="js/db.js"></script>          <!-- 2. Banco de dados -->
-<script src="js/utils.js"></script>       <!-- 3. Utilitários, cargos, toast, modal -->
-<script src="js/auth.js"></script>        <!-- 4. Autenticação -->
-<script src="js/nav.js"></script>         <!-- 5. Navegação e roteador -->
-<script src="js/components.js"></script>  <!-- 6. Componentes reutilizáveis -->
-<script src="js/pages.js"></script>       <!-- 7. Páginas -->
-<script src="js/modals.js"></script>      <!-- 8. Modais -->
-<script src="js/theme.js"></script>       <!-- 9. Painel de tema e cores -->
-
+<script src="config.js"></script>      <!-- 1. Configurações e tema padrão -->
+<script src="db.js"></script>          <!-- 2. Banco de dados -->
+<script src="utils.js"></script>       <!-- 3. Utilitários, cargos, toast, modal -->
+<script src="auth.js"></script>        <!-- 4. Autenticação -->
+<script src="nav.js"></script>         <!-- 5. Navegação e roteador -->
+<script src="components.js"></script>  <!-- 6. Componentes reutilizáveis -->
+<script src="pages.js"></script>       <!-- 7. Páginas -->
+<script src="modals.js"></script>      <!-- 8. Modais -->
+<script src="theme.js"></script>       <!-- 9. Painel de tema e cores -->
+ 
 <script>
   // ── INICIALIZAÇÃO ──────────────────────────────────
   document.addEventListener("DOMContentLoaded", async () => {
     // Mostra loading no botão de login enquanto conecta Firebase
     const btnLogin = document.getElementById("btn-login-main");
     if (btnLogin) { btnLogin.disabled = true; btnLogin.textContent = "Conectando..."; }
-
+ 
     await DB.init();   // Conecta Firebase e carrega dados
-
+ 
     if (btnLogin) { btnLogin.disabled = false; btnLogin.innerHTML = "Entrar na Plataforma <span class=\"ms\">arrow_forward</span>"; }
-
+ 
     applyTheme();
-
+ 
     const t = DB.getTema();
     const sb = document.getElementById("sb-empresa");
     if (sb && t.nomeEmpresa) sb.textContent = t.nomeEmpresa;
   });
 </script>
-
+ 
 </body>
 </html>
+ 
