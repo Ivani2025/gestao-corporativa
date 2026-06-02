@@ -1,7 +1,7 @@
 // ============================================================
 // js/pages.js — RENDERIZAÇÃO DAS PÁGINAS
 // ============================================================
-
+ 
 // ══ DASHBOARD ════════════════════════════════════════════
 function renderDashboard(el) {
   el.innerHTML = `<div class="anim-fade" style="max-width:1200px;margin:0 auto;">
@@ -9,12 +9,12 @@ function renderDashboard(el) {
       <h2 style="font-size:24px;font-weight:700;color:var(--cor-primaria);">Olá, ${esc(S.user.nome.split(" ")[0])} 👋</h2>
       <p style="color:#75777f;font-size:14px;margin-top:3px;">${new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})}</p>
     </div>
-    <div id="d-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;margin-bottom:24px;"></div>
+    <div id="d-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(45%,190px),1fr));gap:12px;margin-bottom:20px;"></div>
     <div id="d-body"></div>
   </div>`;
   isAdmin() ? dashAdmin() : isMgr() ? dashMgr() : dashEmp();
 }
-
+ 
 function dashAdmin() {
   const uns=DB.unidades(), us=DB.users(), trs=DB.treinamentos();
   $("d-cards").innerHTML =
@@ -22,8 +22,8 @@ function dashAdmin() {
     statCard("group",us.length,"Colaboradores","var(--cor-sucesso)","#9ef3d6","") +
     statCard("school",trs.length,"Treinamentos","#5c5f61","#e0e3e6","") +
     statCard("trending_up",avg(us)+"%","Média Geral","var(--cor-destaque)","#F5E6C8","");
-
-  $("d-body").innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;flex-wrap:wrap;">
+ 
+  $("d-body").innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:16px;">
     <div class="tonal-card" style="padding:20px;border-radius:var(--raio);">
       <h3 style="font-size:16px;font-weight:700;color:var(--cor-primaria);margin-bottom:16px;display:flex;align-items:center;gap:7px;">
         <span class="ms" style="font-size:18px;">corporate_fare</span>Unidades Recentes
@@ -59,7 +59,7 @@ function dashAdmin() {
     </div>
   </div>`;
 }
-
+ 
 function dashMgr() {
   const team = myTeam();
   $("d-cards").innerHTML =
@@ -70,10 +70,10 @@ function dashMgr() {
     <h3 style="font-size:16px;font-weight:700;color:var(--cor-primaria);margin-bottom:16px;">Minha Equipe</h3>
     ${team.length===0
       ? `<p style="color:#75777f;text-align:center;padding:30px;">Nenhum membro na equipe</p>`
-      : `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;">${team.map(u=>memberCard(u)).join("")}</div>`}
+      : `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:12px;">${team.map(u=>memberCard(u)).join("")}</div>`}
   </div>`;
 }
-
+ 
 function dashEmp() {
   const trs=myTrens(), done=trs.filter(t=>S.user.treinamentos?.[t.id]?.concluido).length;
   const p = pct(done,trs.length);
@@ -107,7 +107,7 @@ function dashEmp() {
     <button class="btn btn-p" style="width:100%;justify-content:center;margin-top:8px;" onclick="nav('meu-treinamento')">Ver todos os treinamentos</button>
   </div>`;
 }
-
+ 
 // ══ UNIDADES ═════════════════════════════════════════════
 function renderUnidades(el) {
   el.innerHTML = `<div class="anim-fade" style="max-width:1200px;margin:0 auto;">
@@ -124,8 +124,8 @@ function renderUnidades(el) {
         <input class="inp" id="srch-un" placeholder="Filtrar por nome ou cidade..." style="padding-left:42px;background:#f5f3f7;" oninput="renderUnitCards(this.value)"/>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin-bottom:22px;" id="un-stats"></div>
-    <div id="un-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;"></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(45%,170px),1fr));gap:12px;margin-bottom:18px;" id="un-stats"></div>
+    <div id="un-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:14px;"></div>
   </div>`;
   const uns=DB.unidades(), us=DB.users();
   $("un-stats").innerHTML =
@@ -134,7 +134,7 @@ function renderUnidades(el) {
     statCard("trending_up",avg(us)+"%","Média Conclusão","var(--cor-destaque)","#F5E6C8","");
   renderUnitCards("");
 }
-
+ 
 function renderUnitCards(q) {
   const el=$("un-list"); if(!el)return;
   let uns=DB.unidades();
@@ -181,7 +181,7 @@ function renderUnitCards(q) {
       </div>
     </div>`).join("");
 }
-
+ 
 // ══ FUNCIONÁRIOS ══════════════════════════════════════════
 function renderFuncionarios(el) {
   el.innerHTML = `<div class="anim-fade" style="max-width:1200px;margin:0 auto;">
@@ -206,7 +206,7 @@ function renderFuncionarios(el) {
   </div>`;
   renderFuncTable();
 }
-
+ 
 function renderFuncTable() {
   const el=$("func-tbl"); if(!el)return;
   const q=($("srch-f")?.value||"").toLowerCase();
@@ -234,7 +234,7 @@ function renderFuncTable() {
     </tr>`).join("")}</tbody>
   </table>`;
 }
-
+ 
 // ══ TREINAMENTOS (admin) ══════════════════════════════════
 function renderTreinamentos(el) {
   el.innerHTML=`<div class="anim-fade" style="max-width:1000px;margin:0 auto;">
@@ -249,7 +249,7 @@ function renderTreinamentos(el) {
   </div>`;
   renderTrList();
 }
-
+ 
 function renderTrList() {
   const el=$("tr-list"); if(!el)return;
   const list=DB.treinamentos();
@@ -286,7 +286,7 @@ function renderTrList() {
       </div>
     </div>`).join("");
 }
-
+ 
 // ══ MEUS TREINAMENTOS (funcionário) ══════════════════════
 function renderMeuTreinamento(el) {
   const trs=myTrens(), done=trs.filter(t=>S.user.treinamentos?.[t.id]?.concluido).length;
@@ -332,7 +332,7 @@ function renderMeuTreinamento(el) {
     </div>
   </div>`;
 }
-
+ 
 // ══ PERFIL ════════════════════════════════════════════════
 function renderPerfil(el) {
   const u=S.user;
@@ -404,7 +404,7 @@ function renderPerfil(el) {
     </button>
   </div>`;
 }
-
+ 
 function saveProfile() {
   const nome=$("p-nome")?.value.trim();
   if(!nome){toast("Informe o nome.","err");return;}
@@ -417,14 +417,14 @@ function saveProfile() {
   buildNav();
   toast("Perfil atualizado!","ok");
 }
-
+ 
 function handleAv(inp) {
   const f=inp.files[0]; if(!f)return;
   const r=new FileReader();
   r.onload=e=>{ S.user.foto=e.target.result; DB.saveUser(S.user); buildNav(); nav("perfil"); toast("Foto atualizada!","ok"); };
   r.readAsDataURL(f);
 }
-
+ 
 // ══ CONFIGURAÇÕES ═════════════════════════════════════════
 function renderConfig(el) {
   el.innerHTML=`<div class="anim-fade" style="max-width:760px;margin:0 auto;">
@@ -451,7 +451,7 @@ function renderConfig(el) {
     </div>
   </div>`;
 }
-
+ 
 function confirmClear() {
   openModal(`<div style="padding:26px;text-align:center;">
     <span class="ms" style="font-size:48px;color:#ba1a1a;">warning</span>
@@ -470,3 +470,4 @@ function doClear() {
   toast("Dados limpos!","ok");
   setTimeout(() => nav("dashboard"), 400);
 }
+ 
